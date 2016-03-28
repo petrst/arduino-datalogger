@@ -1,5 +1,7 @@
+#include "RTClib.h"
+
 struct StorageRecord {
-  long date;
+  DateTime date;
   float temp;
 };
 
