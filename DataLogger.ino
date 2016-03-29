@@ -91,7 +91,7 @@ I2C_eeprom ee(0x50);
 // Wake up by button
 void pinInterrupt()
 {
-  detachInterrupt(BUTTON_PIN-1);
+  detachInterrupt(digitalPinToInterrupt(BUTTON_PIN));
   //attachInterrupt(0, pinInterrupt, HIGH);
   mode = WAKE_MODE;
   disp_mode = TEMP_MODE;
@@ -521,7 +521,7 @@ void go_sleep() {
   interrupts();
 
   // Set pin 2 as interrupt and attach handler:
-  attachInterrupt(BUTTON_PIN-1, pinInterrupt, LOW);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), pinInterrupt, LOW);
 
   // Set sleep enable (SE) bit:
   sleep_enable();
