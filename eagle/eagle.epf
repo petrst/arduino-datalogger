@@ -1,0 +1,29 @@
+[Eagle]
+Version="07 04 00"
+Platform="Windows"
+Serial="62191E841E-LSR-WLM-1EL"
+Globals="Globals"
+Desktop="Desktop"
+
+[Globals]
+AutoSaveProject=1
+UsedLibrary="C:/EAGLE-7.4.0/lbr/74xx-us.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/atmel.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/con-commcon.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/diode.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/discrete.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/display-lcd.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/led.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/memory.lbr"
+UsedLibrary="C:/EAGLE-7.4.0/lbr/resistor.lbr"
+UsedLibrary="C:/Users/psturc/Downloads/lcd.lbr"
+
+[Win_1]
+Type="Control Panel"
+Loc="-8 -8 1591 829"
+State=1
+Number=0
+
+[Desktop]
+Screen="1600 900"
+Window="Win_1"
