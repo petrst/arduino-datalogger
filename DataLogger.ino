@@ -7,7 +7,7 @@
 #include <Wire.h>
 #include "DataLogger.h"
 #include "EEPROMAnything.h"
-#include "RTClib.h"
+#include <RTClib.h>
 
 
 // HARDWARE ///////////////////////////////////////////
@@ -87,6 +87,10 @@ I2C_eeprom ee(0x50);
 
 //////////////////////////////////////////////////////
 // INTERRUPT HANDLERS ////////////////////////////////
+
+int digitalPinToInterrupt(int pin){
+  return pin-2;
+}
 
 // Wake up by button
 void pinInterrupt()
@@ -277,10 +281,10 @@ StorageRecord read_mem(int index) {
   //EEPROM.get( index, rec);
   //EEPROM_readAnything(index, rec);
   ee.readBlock(index, (unsigned char*)&rec, sizeof(rec));
-  Serial.print("INDEX=");
-  Serial.println(index,DEC);
-  Serial.print("DAYREAD=");
-  Serial.println(rec.date.day());
+  //Serial.print("INDEX=");
+  //Serial.println(index,DEC);
+  //Serial.print("DAYREAD=");
+  //Serial.println(rec.date.day());
   return rec;
 }
 
