@@ -258,20 +258,70 @@ float measure(){
 
 
 void store_mem(float temp) {
-
+  
   //EEPROM.write(mem_index,temp);
   //mem_index += 4;
   StorageRecord rec = {get_time(), temp};
   //EEPROM.put(mem_index, rec);
   //EEPROM_writeAnything(mem_index, rec);
+  int again = 0;
+  
+  do {
   ee.writeBlock(mem_index, (unsigned char*)&rec, sizeof(rec));
 
+    Serial.print("WRT INDEX");
+    Serial.print(mem_index);
+    Serial.print(" ");
+    Serial.print(rec.date.year(), DEC);
+    Serial.print("/");
+    Serial.print(rec.date.month(), DEC);
+    Serial.print("/");
+    Serial.print(rec.date.day(), DEC);
+    Serial.print(" ");
+    Serial.print(rec.date.hour(), DEC);
+    Serial.print(":");
+    Serial.print(rec.date.minute(), DEC);
+    Serial.print(":");
+    Serial.print(rec.date.second(), DEC);
+    Serial.print(" ");
+    Serial.println(rec.temp);
+  
+  StorageRecord rec2 = read_mem(mem_index);
+    
+    Serial.print("RDR INDEX");
+    Serial.print(mem_index);
+    Serial.print(" ");
+    Serial.print(rec2.date.year(), DEC);
+    Serial.print("/");
+    Serial.print(rec2.date.month(), DEC);
+    Serial.print("/");
+    Serial.print(rec2.date.day(), DEC);
+    Serial.print(" ");
+    Serial.print(rec2.date.hour(), DEC);
+    Serial.print(":");
+    Serial.print(rec2.date.minute(), DEC);
+    Serial.print(":");
+    Serial.print(rec2.date.second(), DEC);
+    Serial.print(" ");
+    Serial.println(rec2.temp);
+  
+  if ( rec.temp!=rec2.temp ){ 
+  mem_index += sizeof(rec);
+    again = 1;
+  } else { 
+    again = 0; 
+  }
+   
+  
+  } while (again);
+  
   mem_index += sizeof(rec);
 
   if ( mem_index + sizeof(rec) > MEM_SIZE ) {
     mem_full = true;
     digitalWrite(MEM_FULL_LED, HIGH);
   }
+  
 
 }
 
@@ -583,7 +633,7 @@ void sendData() {
     i += sizeof(rec);
   }
 
-  Serial.print("\n");
+  Serial.print("END\n");
   //interrupts();
 }
 
@@ -602,10 +652,31 @@ void loop() {
     lcd.print( "Synchronizuji ...");
     
     String instr = "";
+    int dyear=0;
+    int dmonth=0;
+    int dday=0;
     int hours = 0;
     int minutes = 0;
     int seconds = 0;
     
+    instr = "";
+    instr += (char)Serial.read();
+    instr += (char)Serial.read();
+    instr += (char)Serial.read();
+    instr += (char)Serial.read();
+    dyear = instr.toInt();
+    
+    instr = "";
+    instr += (char)Serial.read();
+    instr += (char)Serial.read();
+    dmonth = instr.toInt();
+    
+    instr = "";
+    instr += (char)Serial.read();
+    instr += (char)Serial.read();
+    dday = instr.toInt();
+    
+    instr = "";
     instr += (char)Serial.read();
     instr += (char)Serial.read();
     hours = instr.toInt();
@@ -620,7 +691,7 @@ void loop() {
     instr += (char)Serial.read();
     seconds = instr.toInt();
     
-    rtc.adjust(DateTime(2016, 1, 1, hours, minutes, seconds));
+    rtc.adjust(DateTime(dyear, dmonth, dday, hours, minutes, seconds));
     Serial.println("SYNC DONE");
     Serial.println(hours);
     
