@@ -1,0 +1,1 @@
+Moved under https://bitbucket.org/petrst/celsius project
